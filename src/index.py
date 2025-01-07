@@ -12,13 +12,13 @@ def train_validate_test_split():
     '''
 
     # Group images by person ID
-    input_folder = 'data/images'
+    INPUT_FOLDER = 'data/images'
     images_by_person = {}
-    for file_name in os.listdir(input_folder):
+    for file_name in os.listdir(INPUT_FOLDER):
         person_id = int(file_name[:3]) # First 3 characters of the file name
         if person_id not in images_by_person:
             images_by_person[person_id] = []
-        images_by_person[person_id].append(os.path.join(input_folder, file_name))
+        images_by_person[person_id].append(os.path.join(INPUT_FOLDER, file_name))
 
     # For each person, split her images into train, validation, and test sets
     # according to a ratio
@@ -29,12 +29,12 @@ def train_validate_test_split():
         np.random.seed(person_id)
         np.random.shuffle(images)
         # train:validate:test ratio is 60:20:20
-        train_count = 43
-        validate_count = 14
-        # test_count = 15
-        train_images.extend(images[:train_count])
-        validate_images.extend(images[train_count: train_count + validate_count])
-        test_images.extend(images[train_count + validate_count:])
+        TRAIN_COUNT = 43
+        VALIDATE_COUNT = 14
+        # TEST_COUNT = 15
+        train_images.extend(images[:TRAIN_COUNT])
+        validate_images.extend(images[TRAIN_COUNT: TRAIN_COUNT + VALIDATE_COUNT])
+        test_images.extend(images[TRAIN_COUNT + VALIDATE_COUNT:])
 
     # Log the results of the split
     with open('data/logs/train_images.txt', 'w') as f:
