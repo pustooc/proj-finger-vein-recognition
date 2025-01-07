@@ -20,7 +20,9 @@ def load_images(file_list):
     return np.array(images), np.array(labels)
 
 
-def prepare_data():
+def train_validate_test_split():
+    '''Determine which image files go into the train-validate-test sets.'''
+
     # Group images by person ID
     input_folder = 'data/images'
     images_by_person = {}
@@ -30,7 +32,8 @@ def prepare_data():
             images_by_person[person_id] = []
         images_by_person[person_id].append(os.path.join(input_folder, file_name))
 
-    # Split images into train, validation, and test sets
+    # For each person, split her images into train, validation, and test sets
+    # according to a ratio
     train_images = []
     validate_images = []
     test_images = []
@@ -45,7 +48,7 @@ def prepare_data():
         validate_images.extend(images[train_count: train_count + validate_count])
         test_images.extend(images[train_count + validate_count:])
 
-    # Log the organisation of the images
+    # Log the results of the split
     with open('data/logs/train_images.txt', 'w') as f:
         f.write('\n'.join(train_images))
     with open('data/logs/validate_images.txt', 'w') as f:
@@ -53,14 +56,7 @@ def prepare_data():
     with open('data/logs/test_images.txt', 'w') as f:
         f.write('\n'.join(test_images))
 
-    # Load images into arrays
-    x_train, y_train = load_images(train_images)
-    x_validate, y_validate = load_images(validate_images)
-    x_test, y_test = load_images(test_images)
-
-    print(x_train.shape())
-    print(x_validate.shape())
-    print(x_test.shape())
+    return train_images, validate_images, test_images
 
 
 def build_custom_cnn():
@@ -76,7 +72,7 @@ def evaluate_model():
 
 
 if __name__ == '__main__':
-    prepare_data()
+    train_images, validate_images, test_images = train_validate_test_split()
     build_custom_cnn()
     fit_model()
     evaluate_model()
