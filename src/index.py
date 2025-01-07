@@ -6,7 +6,10 @@ from tensorflow.keras.preprocessing.image import img_to_array
 
 
 def train_validate_test_split():
-    '''Determine which image files go into the train-validate-test sets.'''
+    '''
+    Determine which image files go into the train-validate-test sets.
+    Hyperparameters: ratio of the split.
+    '''
 
     # Group images by person ID
     input_folder = 'data/images'
