@@ -59,11 +59,15 @@ def load_images(file_list):
     return np.array(images), np.array(labels)
 
 
-def build_custom_cnn():
+def define_custom_cnn():
     pass
 
 
-def fit_model():
+def train_model():
+    pass
+
+
+def predict_test_classes():
     pass
 
 
@@ -74,6 +78,7 @@ def evaluate_model():
 if __name__ == '__main__':
     train_images, validate_images, test_images = train_validate_test_split()
     load_images()
-    build_custom_cnn()
-    fit_model()
+    define_custom_cnn()
+    train_model()
+    predict_test_classes()
     evaluate_model()
