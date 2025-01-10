@@ -23,7 +23,7 @@ def train_validate_test_split():
             images_by_person[person_id] = []
         images_by_person[person_id].append(os.path.join(INPUT_FOLDER, file_name))
 
-    # For each person, split her images into train, validation, and test sets
+    # For each person, split her images into train-validate-test sets
     # according to a ratio
     train_images = []
     train_labels = []
