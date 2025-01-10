@@ -46,6 +46,8 @@ def train_validate_test_split():
         validate_labels.extend([person_id] * VALIDATE_COUNT)
         test_images.extend(images[TRAIN_COUNT + VALIDATE_COUNT:])
         test_labels.extend([person_id] * TEST_COUNT)
+    # Initialise the sets as dataframes with labels so that
+    # flow_with_dataframe can be used
     train_df = pd.DataFrame({
         'image_file': train_images,
         'person_id': train_labels
