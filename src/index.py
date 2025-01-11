@@ -170,8 +170,10 @@ def define_custom_cnn():
     return model
 
 
-def train_model():
-    pass
+def train_model(train_generator, validate_generator, model):
+    '''Hyperparameters: number of epochs.'''
+
+    return model.fit(train_generator, epochs=20, validation_data=validate_generator)
 
 
 def predict_test_classes():
@@ -186,6 +188,6 @@ if __name__ == '__main__':
     train_df, validate_df, test_df = train_validate_test_split()
     train_generator, validate_generator, test_generator = load_images(train_df, validate_df, test_df)
     model = define_custom_cnn()
-    train_model()
+    history = train_model(train_generator, validate_generator, model)
     predict_test_classes()
     evaluate_model()
