@@ -2,6 +2,14 @@ import os
 
 import numpy as np
 import pandas as pd
+from tensorflow.keras.layers import (
+    Conv2D,
+    Dense,
+    Dropout,
+    Flatten,
+    MaxPooling2D
+)
+from tensorflow.keras.models import Sequential
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
@@ -119,7 +127,37 @@ def load_images(train_df, validate_df, test_df):
 
 
 def define_custom_cnn():
-    pass
+    CLASSES_COUNT = 100
+
+    model = Sequential()
+    model.add(Conv2D(
+        filters=32,
+        kernel_size=(3, 3),
+        strides=(1, 1),
+        padding='same',
+        activation='relu',
+        input_shape=(576, 768, 1)
+    ))
+    model.add(MaxPooling2D(
+        pool_size=(2, 2),
+        strides=(2, 2),
+        padding='same'
+    ))
+    model.add(Flatten())
+    model.add(Dropout(0.25))
+    model.add(Dense(1000, activation='relu'))
+    model.add(Dropout(0.25))
+    model.add(Dense(CLASSES_COUNT, activation='softmax'))
+
+    model.compile(
+        optimizer='adam',
+        loss='categorical_crossentropy',
+        metrics=['accuracy']
+    )
+
+    model.summary()
+
+    return model
 
 
 def train_model():
