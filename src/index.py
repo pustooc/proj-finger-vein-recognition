@@ -17,7 +17,7 @@ def train_validate_test_split():
     INPUT_FOLDER = 'data/images'
     images_by_person = {}
     for file_name in os.listdir(INPUT_FOLDER):
-        person_id = int(file_name[:3]) # First 3 characters of the file name
+        person_id = file_name[:3] # First 3 characters of the file name
         if person_id not in images_by_person:
             images_by_person[person_id] = []
         images_by_person[person_id].append(os.path.join(INPUT_FOLDER, file_name))
@@ -32,7 +32,7 @@ def train_validate_test_split():
     test_labels = []
     for person_id, images in images_by_person.items():
         # Randomise the order of image selection with a seed for reproducibility
-        np.random.seed(person_id)
+        np.random.seed(int(person_id))
         np.random.shuffle(images)
         # 60:20:20 is the train:validate:test ratio
         # 72 images per person
