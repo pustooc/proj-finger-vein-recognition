@@ -127,6 +127,16 @@ def load_images(train_df, validate_df, test_df):
 
 
 def define_custom_cnn():
+    '''
+    Define the architecture of a custom CNN.
+    Returns: an untrained model.
+    Hyperparameters: number of convolution + pooling layers; convolution filters,
+    kernel size, stride, padding, and activation function; pooling type, size,
+    stride, and padding; number of fully connected layers (FCL); FCL nodes and
+    activation function; number of dropout layers; dropout rates; output layer
+    activation function; optimiser.
+    '''
+
     CLASSES_COUNT = 100
 
     model = Sequential()
@@ -175,7 +185,7 @@ def evaluate_model():
 if __name__ == '__main__':
     train_df, validate_df, test_df = train_validate_test_split()
     train_generator, validate_generator, test_generator = load_images(train_df, validate_df, test_df)
-    define_custom_cnn()
+    model = define_custom_cnn()
     train_model()
     predict_test_classes()
     evaluate_model()
