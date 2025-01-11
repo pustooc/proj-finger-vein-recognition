@@ -28,6 +28,6 @@ def test_load_images_returns_correct_generators():
     train_generator, validate_generator, test_generator = load_images(train_df, validate_df, test_df)
 
     # Check that one hot encoding worked
-    assert train_generator.num_classes == 100
-    assert validate_generator.num_classes == 100
-    assert test_generator.num_classes == 100
+    assert len(train_generator.class_indices) == 100
+    assert len(validate_generator.class_indices) == 100
+    assert len(test_generator.class_indices) == 100
