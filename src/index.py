@@ -15,7 +15,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 def train_validate_test_split():
     '''
-    Allocate image files to the train-validate-test sets.
+    Allocate image files to the train-validate-test sets for each person.
     Returns: three dataframes representing the train-validate-test sets, each with an
     image_file column (x) and a person_id column (y).
     Hyperparameters: ratio of the split; number of images per person.
@@ -129,7 +129,7 @@ def load_images(train_df, validate_df, test_df):
 def define_custom_cnn():
     '''
     Define the architecture of a custom CNN.
-    Returns: an untrained model.
+    Returns: an untrained CNN.
     Hyperparameters: number of convolution + pooling layers; convolution filters,
     kernel size, stride, padding, and activation function; pooling type, size,
     stride, and padding; number of fully connected layers (FCL); FCL nodes and
