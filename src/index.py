@@ -15,8 +15,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 def train_validate_test_split():
     '''
-    Determine which image files go into the train-validate-test sets.
-    Returns: three dataframes representing the train-validate-test split, each with an
+    Allocate image files to the train-validate-test sets.
+    Returns: three dataframes representing the train-validate-test sets, each with an
     image_file column (x) and a person_id column (y).
     Hyperparameters: ratio of the split; number of images per person.
     '''
