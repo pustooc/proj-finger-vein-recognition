@@ -86,7 +86,8 @@ def load_images(train_df, validate_df, test_df):
         y_col='person_id',
         color_mode='grayscale', # Ensure pixel dimension is 1
         class_mode='categorical', # One hot encode for multi-class classification
-        shuffle=True, # Reordering images required when training in new epochs
+        shuffle=True, # Reordering images is required when training in new epochs
+        seed=420,
         batch_size=BATCH_SIZE
     )
     validate_augmentation = ImageDataGenerator(
