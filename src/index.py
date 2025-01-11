@@ -2,6 +2,7 @@ import os
 
 import numpy as np
 import pandas as pd
+from sklearn.metrics import classification_report
 from tensorflow.keras.layers import (
     Conv2D,
     Dense,
@@ -176,12 +177,10 @@ def train_model(train_generator, validate_generator, model):
     return model.fit(train_generator, epochs=20, validation_data=validate_generator)
 
 
-def predict_test_classes():
-    pass
-
-
-def evaluate_model():
-    pass
+def predict_test_classes(test_generator, model):
+    predictions = model.predict(test_generator)
+    y_predicted = np.argmax(predictions, axis=1)
+    print(classification_report(test_generator.classes, y_predicted))
 
 
 if __name__ == '__main__':
@@ -189,5 +188,4 @@ if __name__ == '__main__':
     train_generator, validate_generator, test_generator = load_images(train_df, validate_df, test_df)
     model = define_custom_cnn()
     history = train_model(train_generator, validate_generator, model)
-    predict_test_classes()
-    evaluate_model()
+    predict_test_classes(test_generator, model)
