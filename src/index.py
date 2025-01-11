@@ -2,8 +2,9 @@ import os
 
 import numpy as np
 import pandas as pd
-from tensorflow.keras.preprocessing.image import load_img
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing.image import img_to_array
+from tensorflow.keras.preprocessing.image import load_img
 
 
 def train_validate_test_split():
@@ -69,19 +70,53 @@ def train_validate_test_split():
     return train_df, validate_df, test_df
 
 
-def load_images(file_list):
-    '''Load images' information into arrays.'''
-    images = []
-    labels = []
-    for file in file_list:
-        img = load_img(file)
-        img_array = img_to_array(img)
-        images.append(img_array)
-        label = int(os.path.basename(file)[:3]) # First 3 characters of the file name
-        labels.append(label)
-        print(label)
-    
-    return np.array(images), np.array(labels)
+def load_images(train_df, validate_df, test_df):
+    '''
+    Create generators for the train-test-split sets to load images in batches.
+    Also augment images here.
+    Hyperparameters: batch size.
+    '''
+
+    BATCH_SIZE = 32
+
+    train_augmentation = ImageDataGenerator(
+        rescale=1.0 / 255 # Normalise pixel values from 0 - 255 to 0 - 1
+    )
+    train_generator = train_augmentation.flow_from_dataframe(
+        dataframe=train_df,
+        x_col='image_file',
+        y_col='person_id',
+        color_mode='grayscale', # Ensure pixel dimension is 1
+        class_mode='categorical', # One hot encode for multi-class classification
+        shuffle=True, # Reordering images required when training in new epochs
+        batch_size=BATCH_SIZE
+    )
+    validate_augmentation = ImageDataGenerator(
+        rescale=1.0 / 255 # Normalise pixel values from 0 - 255 to 0 - 1
+    )
+    validate_generator = validate_augmentation.flow_from_dataframe(
+        dataframe=validate_df,
+        x_col='image_file',
+        y_col='person_id',
+        color_mode='grayscale', # Ensure pixel dimension is 1
+        class_mode='categorical', # One hot encode for multi-class classification
+        shuffle=False, # Image order can remain the same when validating in new epochs
+        batch_size=BATCH_SIZE
+    )
+    test_augmentation = ImageDataGenerator(
+        rescale=1.0 / 255 # Normalise pixel values from 0 - 255 to 0 - 1
+    )
+    test_generator = test_augmentation.flow_from_dataframe(
+        dataframe=test_df,
+        x_col='image_file',
+        y_col='person_id',
+        color_mode='grayscale', # Ensure pixel dimension is 1
+        class_mode='categorical', # One hot encode for multi-class classification
+        shuffle=False, # Image order can remain the same when testing in new epochs
+        batch_size=BATCH_SIZE
+    )
+
+    return train_generator, validate_generator, test_generator
 
 
 def define_custom_cnn():
@@ -102,7 +137,7 @@ def evaluate_model():
 
 if __name__ == '__main__':
     train_df, validate_df, test_df = train_validate_test_split()
-    load_images()
+    train_generator, validate_generator, test_generator = load_images(train_df, validate_df, test_df)
     define_custom_cnn()
     train_model()
     predict_test_classes()
