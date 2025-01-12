@@ -178,7 +178,10 @@ def train_model(train_generator, validate_generator, model):
 
 
 def predict_test_classes(test_generator, model):
-    predictions = model.predict(test_generator)
+    return model.predict(test_generator)
+
+
+def evaluate_model(predictions):
     y_predicted = np.argmax(predictions, axis=1)
     print(classification_report(test_generator.classes, y_predicted))
 
@@ -188,4 +191,5 @@ if __name__ == '__main__':
     train_generator, validate_generator, test_generator = load_images(train_df, validate_df, test_df)
     model = define_custom_cnn()
     history = train_model(train_generator, validate_generator, model)
-    predict_test_classes(test_generator, model)
+    predictions = predict_test_classes(test_generator, model)
+    evaluate_model(predictions)
