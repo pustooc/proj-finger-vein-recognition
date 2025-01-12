@@ -172,7 +172,7 @@ def define_custom_cnn():
 def train_model(train_generator, validate_generator, model):
     '''Hyperparameters: number of epochs.'''
 
-    return model.fit(train_generator, epochs=20, validation_data=validate_generator, verbose=1)
+    return model.fit(train_generator, epochs=20, validation_data=validate_generator)
 
 
 def predict_test_classes(test_generator, model):
