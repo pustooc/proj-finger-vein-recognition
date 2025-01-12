@@ -81,10 +81,8 @@ def load_images(train_df, validate_df, test_df):
     '''
     Create generators for the train-test-split sets to load images in batches.
     Also augment images here.
-    Hyperparameters: batch size.
+    Hyperparameters: training batch size.
     '''
-
-    BATCH_SIZE = 32
 
     train_augmentation = ImageDataGenerator(
         rescale=1.0 / 255 # Normalise pixel values from 0 - 255 to 0 - 1
@@ -97,7 +95,7 @@ def load_images(train_df, validate_df, test_df):
         class_mode='categorical', # One hot encode for multi-class classification
         shuffle=True, # Reordering images is required when training in new epochs
         seed=420,
-        batch_size=BATCH_SIZE
+        batch_size=32
     )
     validate_augmentation = ImageDataGenerator(
         rescale=1.0 / 255 # Normalise pixel values from 0 - 255 to 0 - 1
@@ -109,7 +107,7 @@ def load_images(train_df, validate_df, test_df):
         color_mode='grayscale', # Ensure pixel dimension is 1
         class_mode='categorical', # One hot encode for multi-class classification
         shuffle=False, # Image order can remain the same when validating in new epochs
-        batch_size=BATCH_SIZE
+        batch_size=32 # Set as large as memory can handle for increased evaluation speed
     )
     test_augmentation = ImageDataGenerator(
         rescale=1.0 / 255 # Normalise pixel values from 0 - 255 to 0 - 1
@@ -121,7 +119,7 @@ def load_images(train_df, validate_df, test_df):
         color_mode='grayscale', # Ensure pixel dimension is 1
         class_mode='categorical', # One hot encode for multi-class classification
         shuffle=False, # Image order can remain the same when testing in new epochs
-        batch_size=BATCH_SIZE
+        batch_size=32 # Set as large as memory can handle for increased evaluation speed
     )
 
     return train_generator, validate_generator, test_generator
