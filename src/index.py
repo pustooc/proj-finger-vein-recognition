@@ -81,7 +81,7 @@ def load_images(train_df, validate_df, test_df):
     '''
     Create generators for the train-test-split sets to load images in batches.
     Also augment images here.
-    Hyperparameters: training batch size.
+    Hyperparameters: image size; training batch size.
     '''
 
     train_augmentation = ImageDataGenerator(
@@ -95,6 +95,7 @@ def load_images(train_df, validate_df, test_df):
         class_mode='categorical', # One hot encode for multi-class classification
         shuffle=True, # Reordering images is required when training in new epochs
         seed=420,
+        target_size=(144, 192),
         batch_size=32
     )
     validate_augmentation = ImageDataGenerator(
@@ -107,6 +108,7 @@ def load_images(train_df, validate_df, test_df):
         color_mode='grayscale', # Ensure pixel dimension is 1
         class_mode='categorical', # One hot encode for multi-class classification
         shuffle=False, # Image order can remain the same when validating in new epochs
+        target_size=(144, 192),
         batch_size=32 # Set as large as memory can handle for increased evaluation speed
     )
     test_augmentation = ImageDataGenerator(
@@ -119,6 +121,7 @@ def load_images(train_df, validate_df, test_df):
         color_mode='grayscale', # Ensure pixel dimension is 1
         class_mode='categorical', # One hot encode for multi-class classification
         shuffle=False, # Image order can remain the same when testing in new epochs
+        target_size=(144, 192),
         batch_size=32 # Set as large as memory can handle for increased evaluation speed
     )
 
@@ -145,7 +148,7 @@ def define_custom_cnn():
         strides=(1, 1),
         padding='same',
         activation='relu',
-        input_shape=(576, 768, 1)
+        input_shape=(144, 192, 1)
     ))
     model.add(MaxPooling2D(
         pool_size=(2, 2),
@@ -153,9 +156,7 @@ def define_custom_cnn():
         padding='same'
     ))
     model.add(Flatten())
-    model.add(Dropout(0.25))
-    model.add(Dense(1000, activation='relu'))
-    model.add(Dropout(0.25))
+    model.add(Dense(256, activation='relu'))
     model.add(Dense(CLASSES_COUNT, activation='softmax'))
 
     model.compile(
@@ -172,7 +173,7 @@ def define_custom_cnn():
 def train_model(train_generator, validate_generator, model):
     '''Hyperparameters: number of epochs.'''
 
-    return model.fit(train_generator, epochs=20, validation_data=validate_generator)
+    return model.fit(train_generator, epochs=10, validation_data=validate_generator)
 
 
 def predict_test_classes(test_generator, model):
