@@ -6,7 +6,6 @@ from sklearn.metrics import classification_report
 from tensorflow.keras.layers import (
     Conv2D,
     Dense,
-    Dropout,
     Flatten,
     MaxPooling2D
 )
