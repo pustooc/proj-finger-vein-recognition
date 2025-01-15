@@ -3,6 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 from sklearn.metrics import classification_report
+import tensorflow as tf
 from tensorflow.keras.layers import (
     Conv2D,
     Dense,
@@ -11,6 +12,15 @@ from tensorflow.keras.layers import (
 )
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+
+def ensure_reproducibility():
+    # Limit Tensorflow to use a single thread to ensure deterministic execution
+    os.environ['TF_NUM_INTRAOP_THREADS'] = '1'
+    # Explicitly enable determinism
+    tf.config.experimental.enable_op_determinism()
+    # Set seeds for Tensorflow, Numpy, and Python
+    tf.keras.utils.set_random_seed(420)
 
 
 def train_validate_test_split():
@@ -179,15 +189,16 @@ def predict_test_classes(test_generator, model):
     return model.predict(test_generator)
 
 
-def evaluate_model(predictions):
+def evaluate_model(test_generator, predictions):
     y_predicted = np.argmax(predictions, axis=1)
     print(classification_report(test_generator.classes, y_predicted))
 
 
 if __name__ == '__main__':
+    ensure_reproducibility()
     train_df, validate_df, test_df = train_validate_test_split()
     train_generator, validate_generator, test_generator = load_images(train_df, validate_df, test_df)
     model = define_custom_cnn()
     history = train_model(train_generator, validate_generator, model)
     predictions = predict_test_classes(test_generator, model)
-    evaluate_model(predictions)
+    evaluate_model(test_generator, predictions)
