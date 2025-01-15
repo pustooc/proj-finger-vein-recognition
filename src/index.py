@@ -25,10 +25,16 @@ def ensure_reproducibility():
 
 def train_validate_test_split():
     '''
-    Allocate image files to the train-validate-test sets for each person.
-    Returns: three dataframes representing the train-validate-test sets, each with an
-    image_file column (x) and a person_id column (y).
-    Hyperparameters: ratio of the split; number of images per person.
+    For each person, allocate image files to the train-validate-test sets.
+    
+    Returns:
+        train_df (DataFrame): The train set with the columns image_file (x) and person_id (y)
+        validate_df (DataFrame): The validate set with the columns image_file (x) and person_id (y)
+        test_df (DataFrame): The test set set with the columns image_file (x) and person_id (y)
+
+    Hyperparameters:
+        Ratio of the split
+        Number of images per person
     '''
 
     # Group images by person ID
@@ -90,7 +96,15 @@ def load_images(train_df, validate_df, test_df):
     '''
     Create generators for the train-test-split sets to load images in batches.
     Also augment images here.
-    Hyperparameters: image size; training batch size.
+
+    Returns:
+        train_generator (DataFrameIterator): The generator for train images
+        validate_generator (DataFrameIterator): The generator for validate images
+        test_generator (DataFrameIterator): The generator for test images
+    
+    Hyperparameters:
+        Image size
+        Training batch size
     '''
 
     train_augmentation = ImageDataGenerator(
@@ -139,13 +153,19 @@ def load_images(train_df, validate_df, test_df):
 
 def define_custom_cnn():
     '''
-    Define the architecture of a custom CNN.
-    Returns: an untrained CNN.
-    Hyperparameters: number of convolution + pooling layers; convolution filters,
-    kernel size, stride, padding, and activation function; pooling type, size,
-    stride, and padding; number of fully connected layers (FCL); FCL nodes and
-    activation function; number of dropout layers; dropout rates; output layer
-    activation function; optimiser.
+    Returns:
+        model (Sequential): An untrained CNN
+
+    Hyperparameters:
+        Number of convolution + pooling layers
+        Convolution filters, kernel size, stride, padding, and activation function
+        Pooling type, size, stride, and padding
+        Number of fully connected layers (FCL)
+        FCL nodes and activation function
+        Number of dropout layers
+        Dropout rates
+        Output layer activation function
+        Optimiser
     '''
 
     CLASSES_COUNT = 100
@@ -180,7 +200,12 @@ def define_custom_cnn():
 
 
 def train_model(train_generator, validate_generator, model):
-    '''Hyperparameters: number of epochs.'''
+    '''
+    Update the CNN with trained weights.
+
+    Hyperparameters:
+        Number of epochs
+    '''
 
     return model.fit(train_generator, epochs=10, validation_data=validate_generator)
 
