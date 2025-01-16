@@ -194,6 +194,7 @@ def define_custom_cnn():
         metrics=['accuracy']
     )
 
+    # Log the resultant architecture
     model.summary()
 
     return model
