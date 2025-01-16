@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
 import tensorflow as tf
 from tensorflow.keras.layers import (
     Conv2D,
@@ -216,7 +216,7 @@ def predict_test_classes(test_generator, model):
 
 def evaluate_model(test_generator, predictions):
     y_predicted = np.argmax(predictions, axis=1)
-    print(classification_report(test_generator.classes, y_predicted))
+    print(accuracy_score(test_generator.classes, y_predicted))
 
 
 if __name__ == '__main__':
