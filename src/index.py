@@ -4,13 +4,8 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score
 import tensorflow as tf
-from tensorflow.keras.layers import (
-    Conv2D,
-    Dense,
-    Flatten,
-    MaxPooling2D
-)
-from tensorflow.keras.models import Sequential
+from tensorflow.keras import layers
+from tensorflow.keras import models
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
@@ -171,21 +166,21 @@ def define_custom_cnn():
 
     CLASSES_COUNT = 100
 
-    model = Sequential()
-    model.add(Conv2D(
+    model = models.Sequential()
+    model.add(layers.Conv2D(
         filters=32,
         kernel_size=(3, 3),
         strides=(1, 1),
         activation='relu',
         input_shape=(144, 192, 1)
     ))
-    model.add(MaxPooling2D(
+    model.add(layers.MaxPooling2D(
         pool_size=(2, 2),
         strides=(2, 2),
     ))
-    model.add(Flatten())
-    model.add(Dense(256, activation='relu'))
-    model.add(Dense(CLASSES_COUNT, activation='softmax'))
+    model.add(layers.Flatten())
+    model.add(layers.Dense(256, activation='relu'))
+    model.add(layers.Dense(CLASSES_COUNT, activation='softmax'))
 
     model.compile(
         optimizer='adam',
