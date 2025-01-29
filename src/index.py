@@ -207,7 +207,7 @@ def train_model(train_generator, validate_generator, model):
         Number of epochs
     '''
 
-    model.fit(train_generator, epochs=10, validation_data=validate_generator)
+    model.fit(train_generator, epochs=12, validation_data=validate_generator)
 
 
 def evaluate_model(test_generator, model):
