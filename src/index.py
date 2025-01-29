@@ -161,7 +161,7 @@ def define_custom_cnn():
         Convolution filters, kernel size, stride, padding, and activation function
         Pooling type, size, stride, and padding
         Number of fully connected layers (FCL)
-        FCL nodes and activation function
+        FCL type, nodes, and activation function
         Number of dropout layers
         Dropout rates
         Output layer activation function
@@ -175,14 +175,12 @@ def define_custom_cnn():
         filters=32,
         kernel_size=(3, 3),
         strides=(1, 1),
-        padding='same',
         activation='relu',
         input_shape=(144, 192, 1)
     ))
     model.add(MaxPooling2D(
         pool_size=(2, 2),
         strides=(2, 2),
-        padding='same'
     ))
     model.add(Flatten())
     model.add(Dense(256, activation='relu'))
