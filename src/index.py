@@ -206,7 +206,7 @@ def train_model(train_generator, validate_generator, model):
         Number of epochs
     '''
 
-    return model.fit(train_generator, epochs=10, validation_data=validate_generator)
+    model.fit(train_generator, epochs=10, validation_data=validate_generator)
 
 
 def evaluate_model(test_generator, model):
@@ -220,5 +220,5 @@ if __name__ == '__main__':
     train_df, validate_df, test_df = train_validate_test_split()
     train_generator, validate_generator, test_generator = load_images(train_df, validate_df, test_df)
     model = define_custom_cnn()
-    history = train_model(train_generator, validate_generator, model)
+    train_model(train_generator, validate_generator, model)
     evaluate_model(test_generator, model)
