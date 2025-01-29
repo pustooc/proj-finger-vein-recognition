@@ -209,11 +209,8 @@ def train_model(train_generator, validate_generator, model):
     return model.fit(train_generator, epochs=10, validation_data=validate_generator)
 
 
-def predict_test_classes(test_generator, model):
-    return model.predict(test_generator)
-
-
-def evaluate_model(test_generator, predictions):
+def evaluate_model(test_generator, model):
+    predictions = model.predict(test_generator)
     y_predicted = np.argmax(predictions, axis=1)
     print(accuracy_score(test_generator.classes, y_predicted))
 
@@ -224,5 +221,4 @@ if __name__ == '__main__':
     train_generator, validate_generator, test_generator = load_images(train_df, validate_df, test_df)
     model = define_custom_cnn()
     history = train_model(train_generator, validate_generator, model)
-    predictions = predict_test_classes(test_generator, model)
-    evaluate_model(test_generator, predictions)
+    evaluate_model(test_generator, model)
