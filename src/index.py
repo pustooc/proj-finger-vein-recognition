@@ -33,6 +33,7 @@ def train_validate_test_split():
         test_df (DataFrame): The test set set with the columns image_file (x) and person_id (y)
 
     Hyperparameters:
+        Type of split
         Ratio of the split
         Number of images per person
     '''
