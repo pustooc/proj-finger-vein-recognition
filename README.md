@@ -1,3 +1,11 @@
+# Finger vein authentication with a custom CNN
+
+A CNN with fully custom architecture is trained to authenticate users via finger veins. The focus is on low compute requirements.
+
+To note:
+- Accuracy is the only reported metric for benchmarking, but the full confusion matrix can be used for debugging. Size would be 100 * 2 (for 100 users)
+- Further architectural decisions are described in dissertation
+
 # To setup and run the experiment
 
 1. Pull the project code into your desired directory
